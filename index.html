@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Explorer - เว็บไซต์ท่องเที่ยว</title>
+  <title>Travel Explorer - เว็บแนะนำสถานที่ท่องเที่ยว</title>
   <!-- Google Fonts: Prompt -->
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -39,12 +39,8 @@
       color: #0f172a;
     }
 
-    section {
-      padding: 80px 0;
-    }
-
     /* --------------------------------------
-       1. NAVIGATION BAR
+       NAV BAR & HEADER
     -------------------------------------- */
     header {
       background-color: #ffffff;
@@ -65,6 +61,7 @@
       font-size: 1.5rem;
       font-weight: 700;
       color: #2563eb;
+      cursor: pointer;
     }
 
     .nav-links {
@@ -76,111 +73,124 @@
     .nav-links a {
       font-weight: 500;
       color: #475569;
-      transition: color 0.3s;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
     }
 
     .nav-links a:hover, .nav-links a.active {
       color: #2563eb;
+      background-color: #eff6ff;
     }
 
-    .user-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .btn-profile {
+    .user-actions .btn-profile {
       display: flex;
       align-items: center;
       gap: 8px;
       background-color: #f1f5f9;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 9999px;
       font-weight: 500;
       color: #334155;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .user-actions .btn-profile:hover {
+      background-color: #e2e8f0;
     }
 
     /* --------------------------------------
-       2. HOME SECTION (Hero & Articles)
+       PAGE MANAGEMENT (SPA CONTROLLER)
+    -------------------------------------- */
+    .page {
+      display: none; /* ซ่อนทุกหน้าไว้ก่อน */
+      padding: 40px 0 80px 0;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .page.active-page {
+      display: block; /* แสดงเฉพาะหน้าที่เลือก */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --------------------------------------
+       UI COMPONENTS (CARDS, BUTTONS, GRID)
     -------------------------------------- */
     .hero {
-      background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1440&q=80') center/cover;
-      height: 480px;
+      background: linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1440&q=80') center/cover;
+      height: 400px;
+      border-radius: 24px;
       display: flex;
       align-items: center;
       color: white;
       text-align: center;
+      margin-bottom: 40px;
     }
 
-    .hero-content {
-      width: 100%;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 16px;
-    }
+    .hero-content { width: 100%; }
+    .hero h1 { font-size: 3rem; margin-bottom: 12px; }
+    .hero p { font-size: 1.2rem; opacity: 0.9; }
 
     .card-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 32px;
+      margin-top: 24px;
     }
 
     .card {
       background: #ffffff;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .card:hover {
       transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
 
     .card img {
       width: 100%;
-      height: 200px;
+      height: 220px;
       object-fit: cover;
     }
 
-    .card-body {
-      padding: 24px;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
+    .card-body { padding: 24px; }
+    .card-tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 0.8rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
     }
-
-    .card-desc {
-      color: #64748b;
-      font-size: 0.95rem;
-    }
-
-    /* --------------------------------------
-       3. DESTINATIONS SECTION
-    -------------------------------------- */
-    .destinations-section {
-      background-color: #ffffff;
-    }
+    .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 8px; }
+    .card-desc { color: #64748b; font-size: 0.95rem; }
 
     .search-box {
       display: flex;
       gap: 16px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
-
     .search-box input {
       flex: 1;
       padding: 16px 24px;
       border: 1px solid #cbd5e1;
       border-radius: 12px;
       font-size: 1rem;
+      outline: none;
     }
-
     .btn-primary {
       background-color: #2563eb;
       color: white;
@@ -190,247 +200,309 @@
       font-weight: 600;
       cursor: pointer;
     }
+    .btn-primary:hover { background-color: #1d4ed8; }
 
-    .map-placeholder {
+    .map-box {
       width: 100%;
-      height: 350px;
-      background-color: #e2e8f0;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #64748b;
-      font-size: 1.25rem;
+      height: 380px;
+      border-radius: 20px;
+      overflow: hidden;
       margin-top: 32px;
-    }
-
-    /* --------------------------------------
-       4. TRIP PLANNER SECTION
-    -------------------------------------- */
-    .planner-box {
-      background: #eff6ff;
-      border-radius: 24px;
-      padding: 40px;
-      border: 1px dashed #93c5fd;
-    }
-
-    .timeline {
-      margin-top: 24px;
-      border-left: 3px solid #2563eb;
-      padding-left: 24px;
-    }
-
-    .timeline-item {
-      margin-bottom: 24px;
       position: relative;
     }
-
-    .timeline-item::before {
-      content: '';
-      width: 12px;
-      height: 12px;
-      background: #2563eb;
-      border-radius: 50%;
+    .map-box img { width: 100%; height: 100%; object-fit: cover; }
+    .map-overlay {
       position: absolute;
-      left: -30px;
-      top: 6px;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
-    /* --------------------------------------
-       FOOTER
-    -------------------------------------- */
+    /* FOOTER */
     footer {
       background-color: #0f172a;
       color: #94a3b8;
       padding: 40px 0;
       text-align: center;
-      font-size: 0.9rem;
+      margin-top: 80px;
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVIGATION (ครอบคลุม Top Level Nodes + My Account) -->
+  <!-- NAVIGATION BAR -->
   <header>
     <div class="container nav-container">
-      <div class="logo">🏝️ Travel Destination</div>
+      <div class="logo" onclick="switchPage('home')">🏝️ Travel Explorer</div>
       <nav>
         <ul class="nav-links">
-          <li><a href="#home" class="active">Home</a></li>
-          <li><a href="#destinations">Destinations</a></li>
-          <li><a href="#travel-guides">Travel Guides</a></li>
-          <li><a href="#trip-planner">Trip Planner</a></li>
+          <li><a id="nav-home" class="active" onclick="switchPage('home')">Home</a></li>
+          <li><a id="nav-destinations" onclick="switchPage('destinations')">Destinations</a></li>
+          <li><a id="nav-guides" onclick="switchPage('guides')">Travel Guides</a></li>
+          <li><a id="nav-planner" onclick="switchPage('planner')">Trip Planner</a></li>
         </ul>
       </nav>
       <div class="user-actions">
-        <!-- My Account Block -->
-        <a href="#account" class="btn-profile">
-          <span>👤 โปรไฟล์ของฉัน</span>
+        <a id="nav-account" class="btn-profile" onclick="switchPage('account')">
+          👤 โปรไฟล์ของฉัน
         </a>
       </div>
     </div>
   </header>
 
-  <!-- SECTION 1: HOME (สถานที่ยอดนิยม / สถานที่แนะนำ / บทความท่องเที่ยว) -->
-  <section id="home">
-    <div class="hero">
-      <div class="container hero-content">
-        <h1>ค้นพบจุดหมายปลายทางใหม่ๆ กับเรา</h1>
-        <p>รวมสถานที่ท่องเที่ยวแนะนำ บทความท่องเที่ยว และแผนการเดินทางที่ดีที่สุด</p>
-      </div>
-    </div>
+  <main class="container">
 
-    <div class="container" style="margin-top: 60px;">
-      <h2 class="section-title">🔥 สถานที่ยอดนิยม & สถานที่แนะนำ</h2>
+    <!-- 1. PAGE: HOME -->
+    <div id="page-home" class="page active-page">
+      <div class="hero">
+        <div class="hero-content">
+          <h1>วางแผนการเดินทางในฝันของคุณ</h1>
+          <p>รวมจุดหมายปลายทางยอดนิยม ไกด์ท่องเที่ยว และระบบจัดตารางทริปครบจบในที่เดียว</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">🔥 สถานที่ยอดนิยม</h2>
       <div class="card-grid">
         <div class="card">
-          <img src="https://images.unsplash.com/photo-1506665531195-3566fe2b4dfa?auto=format&fit=crop&w=500&q=80" alt="หาดทราย">
+          <img src="https://images.unsplash.com/photo-1506665531195-3566fe2b4dfa?auto=format&fit=crop&w=600&q=80" alt="เกาะพีพี">
           <div class="card-body">
+            <span class="card-tag">ยอดนิยม</span>
             <h3 class="card-title">เกาะพีพี - จ.กระบี่</h3>
-            <p class="card-desc">สถานที่ยอดนิยมระดับโลก สัมผัสทะเลสีมรกตและหาดทรายขาวละเอียด</p>
+            <p class="card-desc">สัมผัสความงดงามของน้ำทะเลสีมรกตและหาดทรายขาวละเอียดระดับโลก</p>
           </div>
         </div>
         <div class="card">
-          <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=500&q=80" alt="วัดเชียงใหม่">
+          <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=600&q=80" alt="เชียงใหม่">
           <div class="card-body">
-            <h3 class="card-title">ดอยสุเทพ - จ.เชียงใหม่</h3>
-            <p class="card-desc">สถานที่แนะนำ ไหว้พระขอพรพร้อมชมวิวเมืองเชียงใหม่แบบ 360 องศา</p>
+            <span class="card-tag">ยอดนิยม</span>
+            <h3 class="card-title">วัดพระธาตุดอยสุเทพ - จ.เชียงใหม่</h3>
+            <p class="card-desc">สถานที่ศักดิ์สิทธิ์คู่เมืองเชียงใหม่ พร้อมชมวิวทิวทัศน์เมืองจากมุมสูง</p>
           </div>
         </div>
         <div class="card">
-          <img src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=500&q=80" alt="กรุงเทพ">
+          <img src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=600&q=80" alt="วัดพระแก้ว">
           <div class="card-body">
+            <span class="card-tag">ยอดนิยม</span>
             <h3 class="card-title">วัดพระแก้ว - กรุงเทพฯ</h3>
-            <p class="card-desc">บทความท่องเที่ยว: ชมสถาปัตยกรรมอันงดงามและประวัติศาสตร์ที่ทรงคุณค่า</p>
+            <p class="card-desc">สถาปัตยกรรมไทยอันทรงคุณค่าและเป็นศูนย์รวมจิตใจของคนไทย</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="margin-top: 56px;">🌟 สถานที่แนะนำ & บทความท่องเที่ยว</h2>
+      <div class="card-grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80" alt="พังงา">
+          <div class="card-body">
+            <span class="card-tag">สถานที่แนะนำ</span>
+            <h3 class="card-title">อ่าวพังงา - จ.พังงา</h3>
+            <p class="card-desc">ผจญภัยล่องเรือชมภูเขาหินปูนและเขาตะปูอันโด่งดัง</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="บทความ">
+          <div class="card-body">
+            <span class="card-tag">บทความท่องเที่ยว</span>
+            <h3 class="card-title">10 จุดเช็คอินทะเลไทย ต้องไปให้ได้สักครั้ง</h3>
+            <p class="card-desc">รวมลิสต์ชายหาดและเกาะที่สวยที่สุดในประเทศไทยสำหรับวันหยุดยาว</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=600&q=80" alt="บทความ">
+          <div class="card-body">
+            <span class="card-tag">บทความท่องเที่ยว</span>
+            <h3 class="card-title">คู่มือเที่ยวคาเฟ่เชียงใหม่ ฉบับสโลว์ไลฟ์</h3>
+            <p class="card-desc">แนะนำคาเฟ่บรรยากาศดี กาแฟอร่อย ถ่ายรูปสวยที่ไม่ควรพลาด</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- SECTION 2: DESTINATIONS (ค้นหาสถานที่ / ดูแผนที่และพิกัด / รูปภาพและรายละเอียด) -->
-  <section id="destinations" class="destinations-section">
-    <div class="container">
-      <h2 class="section-title">🗺️ Destinations (ค้นหาและสำรวจ)</h2>
+    <!-- 2. PAGE: DESTINATIONS -->
+    <div id="page-destinations" class="page">
+      <h2 class="section-title">🗺️ Destinations (ค้นหาและสำรวจสถานที่)</h2>
       
       <!-- ค้นหาสถานที่ -->
       <div class="search-box">
-        <input type="text" placeholder="ค้นหาสถานที่ท่องเที่ยว, จังหวัด, หรือประเภทการเดินทาง...">
+        <input type="text" placeholder="ค้นหาสถานที่ท่องเที่ยว, จังหวัด, ประเภท (เช่น ทะเล, ภูเขา)...">
         <button class="btn-primary">ค้นหา</button>
       </div>
 
-      <!-- รูปภาพและรายละเอียด & ดูแผนที่และพิกัด -->
+      <!-- ดูรูปภาพและรายละเอียด -->
+      <h3 style="margin-bottom: 16px;">รูปภาพและรายละเอียดสถานที่</h3>
       <div class="card-grid">
-        <div class="card" style="grid-column: span 2;">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1512553353614-82a7370096dc?auto=format&fit=crop&w=600&q=80" alt="เขาใหญ่">
           <div class="card-body">
-            <h3>รูปภาพและรายละเอียดสถานที่</h3>
-            <p class="card-desc" style="margin-top: 8px;">
-              เลือกดูข้อมูลเชิงลึก พิกัด GPS เวลาเปิด-ปิด ค่าเข้าชม และรีวิวจากนักท่องเที่ยวจริงแบบจัดเต็ม
-            </p>
+            <h3 class="card-title">อุทยานแห่งชาติเขาใหญ่</h3>
+            <p class="card-desc">สัมผัสธรรมชาติ ผืนป่ามรดกโลก ใกล้กรุงเทพฯ มีจุดชมวิวและน้ำตกสวยงาม</p>
           </div>
         </div>
         <div class="card">
+          <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=600&q=80" alt="อยุธยา">
           <div class="card-body">
-            <h3>📌 พิกัดแนะนำ</h3>
-            <p class="card-desc">ละติจูด/ลองจิจูด และเส้นทางแนะนำ</p>
+            <h3 class="card-title">วัดมหาธาตุ - จ.อยุธยา</h3>
+            <p class="card-desc">โบราณสถานสำคัญ ชมเศียรพระพุทธรูปในรากไม้เศียรพระที่เป็นเอกลักษณ์</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=600&q=80" alt="เกาะสมุย">
+          <div class="card-body">
+            <h3 class="card-title">หาดเฉวง - เกาะสมุย</h3>
+            <p class="card-desc">ชายหาดขึ้นชื่อที่มีชีวิตชีวา ครบครันด้วยโรงแรม ร้านอาหาร และกิจกรรมคึกคัก</p>
           </div>
         </div>
       </div>
 
-      <div class="map-placeholder">
-        🗺️ ดูแผนที่และพิกัด (Interactive Map Workspace)
+      <!-- ดูแผนที่และพิกัด -->
+      <h3 style="margin-top: 48px; margin-bottom: 16px;">ดูแผนที่และพิกัด</h3>
+      <div class="map-box">
+        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1440&q=80" alt="Map View">
+        <div class="map-overlay">
+          <h4 style="color:#2563eb;">📌 แสดงพิกัดสถานที่ท่องเที่ยวใกล้เคียง</h4>
+          <p style="font-size: 0.9rem; color:#475569;">ละติจูด: 13.7563° N, ลองจิจูด: 100.5018° E</p>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- SECTION 3: TRAVEL GUIDES (กิจกรรมที่น่าสนใจ / เคล็ดลับการเดินทาง / แผนเที่ยวแนะนำ) -->
-  <section id="travel-guides">
-    <div class="container">
+    <!-- 3. PAGE: TRAVEL GUIDES -->
+    <div id="page-guides" class="page">
       <h2 class="section-title">📖 Travel Guides (ไกด์ท่องเที่ยว)</h2>
+      
       <div class="card-grid">
         <div class="card">
+          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="ดำน้ำ">
           <div class="card-body">
-            <h3 class="card-title">🎯 กิจกรรมที่น่าสนใจ</h3>
-            <p class="card-desc">ดำน้ำชมปะการัง, เดินป่าศึกษาธรรมชาติ, และล่องเรือชมพระอาทิตย์ตกดิน</p>
+            <span class="card-tag">กิจกรรมที่น่าสนใจ</span>
+            <h3 class="card-title">ดำน้ำชมปะการังเกาะเต่า</h3>
+            <p class="card-desc">สัมผัสโลกใต้ทะเล เรียนดำน้ำระดับสากล พร้อมชมฝูงปลาและปะการังสีสันสดใส</p>
           </div>
         </div>
         <div class="card">
+          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80" alt="เคล็ดลับ">
           <div class="card-body">
-            <h3 class="card-title">💡 เคล็ดลับการเดินทาง</h3>
-            <p class="card-desc">เตรียมตัวอย่างไรก่อนจัดกระเป๋า? วิธีจองตั๋วเครื่องบินให้ได้ราคาถูกที่สุด</p>
+            <span class="card-tag">เคล็ดลับการเดินทาง</span>
+            <h3 class="card-title">วิธีจัดกระเป๋าเป้เดินทาง 5 วัน</h3>
+            <p class="card-desc">เทคนิคการประหยัดพื้นที่กระเป๋า และสิ่งจำเป็นที่ต้องพกติดตัวสำหรับ Backpackers</p>
           </div>
         </div>
         <div class="card">
+          <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="แผนเที่ยวแนะนำ">
           <div class="card-body">
-            <h3 class="card-title">🗺️ แผนเที่ยวแนะนำ</h3>
-            <p class="card-desc">แจกแพลนเที่ยวเชียงใหม่ 3 วัน 2 คืน แบบเก็บครบทุกจุดเช็คอิน</p>
+            <span class="card-tag">แผนเที่ยวแนะนำ</span>
+            <h3 class="card-title">แจกแพลนเที่ยว น่าน 3 วัน 2 คืน</h3>
+            <p class="card-desc">สัมผัสสายหมอก ภูเขา และวิถีชีวิตสโลว์ไลฟ์ ครบทุกจุดถ่ายรูปเช็คอินยอดฮิต</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- SECTION 4: TRIP PLANNER (สร้างทริป / เพิ่มสถานที่ / จัดตารางการเที่ยว) -->
-  <section id="trip-planner" style="background-color: #ffffff;">
-    <div class="container">
-      <h2 class="section-title">📅 Trip Planner (วางแผนการเดินทาง)</h2>
-      <div class="planner-box">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- 4. PAGE: TRIP PLANNER -->
+    <div id="page-planner" class="page">
+      <h2 class="section-title">📅 Trip Planner (จัดตารางการเที่ยว)</h2>
+      
+      <div style="background: white; border-radius: 20px; padding: 40px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
           <div>
-            <h3>➕ สร้างทริปใหม่ของคุณ</h3>
-            <p style="color: #64748b;">เริ่มเพิ่มสถานที่และจัดตารางการท่องเที่ยวในแบบของคุณ</p>
+            <h2>ทริป: เที่ยวทะเลภูเก็ต 3 วัน 2 คืน</h2>
+            <p style="color: #64748b;">สถานะ: กำลังวางแผน | วันเดินทาง: 15 - 17 ต.ค.</p>
           </div>
-          <button class="btn-primary">+ เพิ่มสถานที่ในทริป</button>
+          <div>
+            <button class="btn-primary" style="margin-right: 8px;">➕ เพิ่มสถานที่</button>
+            <button class="btn-primary" style="background-color: #10b981;">💾 บันทึกทริป</button>
+          </div>
         </div>
 
-        <!-- จัดตารางการเที่ยว -->
-        <div class="timeline">
-          <div class="timeline-item">
-            <h4>Day 1: ออกเดินทาง & เช็คอินที่พัก</h4>
-            <p style="color: #64748b; font-size: 0.9rem;">09:00 น. - ถึงสนามบิน / 12:00 น. - รับประทานอาหารกลางวัน</p>
+        <!-- รายการตารางการเที่ยว -->
+        <div style="display: flex; gap: 24px;">
+          <div style="flex: 1; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #cbd5e1;">
+            <h3 style="margin-bottom: 16px; color: #2563eb;">Day 1: ตัวเมืองภูเก็ต & ชุมชนเก่า</h3>
+            <img src="https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=400&q=80" style="width:100%; height:140px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
+            <p><strong>09:00 น.</strong> เดินเล่นย่านตึกเก่าชิโนโปรตุกีส</p>
+            <p><strong>12:00 น.</strong> ทานอาหารพื้นเมือง (หมูฮ้อง, หมี่ฮกเกี้ยน)</p>
           </div>
-          <div class="timeline-item">
-            <h4>Day 2: ตะลุยสถานที่ท่องเที่ยวไฮไลท์</h4>
-            <p style="color: #64748b; font-size: 0.9rem;">08:30 น. - ถ่ายรูปจุดชมวิว / 15:00 น. - คาเฟ่สุดฮิต</p>
+
+          <div style="flex: 1; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #cbd5e1;">
+            <h3 style="margin-bottom: 16px; color: #2563eb;">Day 2: ล่องเรือเกาะเฮ & เกาะราชา</h3>
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&q=80" style="width:100%; height:140px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
+            <p><strong>08:30 น.</strong> ขึ้นเรือที่ท่าเรือฉลอง ไปดำน้ำ</p>
+            <p><strong>17:00 น.</strong> ชมพระอาทิตย์ตกที่แหลมพรหมเทพ</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- SECTION 5: MY ACCOUNT (โปรไฟล์ / สถานที่โปรด / ทริปและรีวิวของฉัน) -->
-  <section id="account">
-    <div class="container">
-      <h2 class="section-title">👤 My Account (บัญชีของฉัน)</h2>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-body" style="text-align: center;">
-            <div style="width: 80px; height: 80px; background: #cbd5e1; border-radius: 50%; margin: 0 auto 16px auto;"></div>
-            <h3 class="card-title">จัดการโปรไฟล์</h3>
-            <p class="card-desc">แก้ไขข้อมูลส่วนตัว และการตั้งค่า</p>
-          </div>
+    <!-- 5. PAGE: MY ACCOUNT -->
+    <div id="page-account" class="page">
+      <h2 class="section-title">👤 My Account (จัดการบัญชี)</h2>
+
+      <!-- ข้อมูลโปรไฟล์ -->
+      <div style="background: white; padding: 32px; border-radius: 20px; display: flex; align-items: center; gap: 24px; margin-bottom: 40px; border: 1px solid #e2e8f0;">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+        <div>
+          <h2>สมชาย สายเที่ยว</h2>
+          <p style="color: #64748b;">somchai.traveler@example.com</p>
+          <span class="card-tag" style="margin-top: 8px;">สมาชิก VIP</span>
         </div>
+      </div>
+
+      <div class="card-grid">
+        <!-- สถานที่โปรด -->
         <div class="card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80" alt="สถานที่โปรด">
           <div class="card-body">
             <h3 class="card-title">❤️ สถานที่โปรด</h3>
-            <p class="card-desc">รายการสถานที่ท่องเที่ยวที่คุณกดบันทึกไว้ (5 สถานที่)</p>
+            <p class="card-desc">คุณมีสถานที่ท่องเที่ยวที่บันทึกไว้ทั้งหมด 12 แห่ง</p>
           </div>
         </div>
+        <!-- ทริปและรีวิวของฉัน -->
         <div class="card">
+          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=500&q=80" alt="รีวิว">
           <div class="card-body">
             <h3 class="card-title">📝 ทริปและรีวิวของฉัน</h3>
-            <p class="card-desc">ประวัติทริปที่เคยสร้าง และรีวิวที่คุณเคยเขียนแชร์ให้เพื่อนๆ</p>
+            <p class="card-desc">ประวัติทริป 4 ทริป และรีวิวสถานที่ท่องเที่ยวที่คุณเคยเขียนไว้ 8 รีวิว</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+
+  </main>
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 Travel Explorer Website Design for Figma Desktop Screen (1440px)</p>
+      <p>&copy; 2026 Travel Explorer - Interactive Desktop UI for Figma Design</p>
     </div>
   </footer>
 
+  <!-- JAVASCRIPT: สำหรับสลับหน้าเมื่อกดคลิกเมนู -->
+  <script>
+    function switchPage(pageId) {
+      // 1. ซ่อนหน้าทั้งหมด
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active-page'));
+
+      // 2. เอาน้ำเงิน (active class) ออกจากเมนูทั้งหมด
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => link.classList.remove('active'));
+
+      // 3. เปิดหน้าที่เลือก
+      const selectedPage = document.getElementById('page-' + pageId);
+      if (selectedPage) {
+        selectedPage.classList.add('active-page');
+      }
+
+      // 4. ใส่ active ให้เมนูที่ตรงกัน
+      const selectedNav = document.getElementById('nav-' + pageId);
+      if (selectedNav) {
+        selectedNav.classList.add('active');
+      }
+
+      // เลื่อนขึ้นด้านบนสุดของหน้า
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
